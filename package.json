@@ -1,0 +1,40 @@
+{
+  "name": "close-frontend",
+  "version": "0.1.0",
+  "homepage": "/",
+  "private": true,
+  "dependencies": {
+    "react": "^16.14.0",
+    "react-dom": "^16.13.1",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^5.1.2",
+    "react-service-worker": "^0.1.1",
+    "react-window-size": "^1.2.2",
+    "semantic-ui-react": "^0.88.2"
+  },
+  "scripts": {
+    "start": "set PORT=3000 && craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
+  },
+  "proxy": "http://localhost:8087/",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^5.6.4",
+    "@semantic-ui-react/craco-less": "^1.2.1",
+    "semantic-ui-less": "^2.4.1",
+    "web-vitals": "^2.1.2"
+  }
+}
