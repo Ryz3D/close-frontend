@@ -16,6 +16,7 @@ import AboutPage from './pages/about';
 import NotFoundPage from './pages/404';
 
 import UIComponent from './components/ui';
+import CloseRest from './data/closeRest';
 
 /*
 
@@ -38,6 +39,8 @@ const pages = {
   "/settings": SettingsPage,
   "/about": AboutPage,
 };
+
+CloseRest.varSubConnect();
 
 ReactDOM.render(
   <React.StrictMode>

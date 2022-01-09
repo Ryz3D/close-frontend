@@ -1,5 +1,7 @@
 class CloseRest {
     static host = process.env.NODE_ENV === "production" ? "/api/" : "http://localhost:8087/api/";
+    static varCb = {};
+    static subConnection;
 
     static rest(req) {
         return new Promise(resolve => {
@@ -38,14 +40,6 @@ class CloseRest {
         });
     }
 
-    static sse(req, cb) {
-        const evt = new EventSource(`${this.host}${req}`, {
-            withCredentials: true,
-        });
-        evt.addEventListener("message", e => cb(e.data));
-        return _ => evt.close();
-    }
-
     static layoutList() {
         return new Promise(resolve => {
             this.rest(`layout/list`).then(resolve);
@@ -76,9 +70,47 @@ class CloseRest {
         });
     }
 
+    static varSubConnected() {
+        if (this.subConnection !== undefined && this.subConnection !== null) {
+            return this.subConnection.readyState === this.subConnection.OPEN;
+        }
+        return false;
+    }
+
+    static varSubConnect() {
+        return new Promise(resolve => {
+            if (this.varSubConnected()) {
+                resolve(_ => { });
+            }
+            else {
+                this.subConnection = new EventSource(`${this.host}var/sub`, {
+                    withCredentials: true,
+                });
+                this.varList()
+                    .then(vars => {
+                        for (var v of vars) {
+                            const idBuf = v;
+                            this.subConnection.addEventListener(v, e => {
+                                if (this.varCb[idBuf] !== undefined) {
+                                    for (var cb of this.varCb[idBuf]) {
+                                        cb(e.data);
+                                    }
+                                }
+                                console.log(`${idBuf} -> ${e.data}`);
+                            });
+                        }
+                        resolve(_ => this.subConnection.close());
+                    });
+            }
+        });
+    }
+
     static varSub(id, cb) {
-        const close = this.sse(`var/sub?q=${encodeURIComponent(id)}`, cb);
-        return _ => close();
+        if (this.varCb[id] === undefined) {
+            this.varCb[id] = [];
+        }
+        const index = this.varCb[id].push(cb) - 1;
+        return _ => this.varCb[id][index] = undefined;
     }
 
     static setup() {
