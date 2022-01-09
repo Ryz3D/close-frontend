@@ -2,6 +2,7 @@ import React from 'react';
 import * as sui from 'semantic-ui-react';
 import Header from '../components/header';
 import CSlider from "../components/controls/slider";
+import CButton from '../components/controls/button';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -19,16 +20,25 @@ class HomePage extends React.Component {
                 <p>
                     Balken Helligkeit
                 </p>
-                <CSlider var="balken_brightness" />
+                <CSlider var="balkenBrightness" />
                 <p>
-                    Balken Power
+                    Balken Schalter
                 </p>
-                <CSlider var="balken_power" min={0} max={1} step={1}
+                <CSlider var="balkenSwitch" min={0} max={1} step={1}
                     labelConv={v => v >= 0.5 ? "On" : "Off"} />
                 <p>
-                    Klotz Helligkeit
+                    Röhre Schalter
                 </p>
-                <CSlider var="klotz" />
+                <CSlider var="roehreSwitch" min={0} max={1} step={1}
+                    labelConv={v => v >= 0.5 ? "On" : "Off"} />
+                <p>
+                    Rollladen
+                </p>
+                <sui.Button.Group secondary>
+                    <CButton var="rolli" value="UP" icon="chevron up" />
+                    <CButton var="rolli" value="STOP" icon="stop circle" />
+                    <CButton var="rolli" value="DOWN" icon="chevron down" />
+                </sui.Button.Group>
             </div>
         );
     }

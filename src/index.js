@@ -17,6 +17,19 @@ import NotFoundPage from './pages/404';
 
 import UIComponent from './components/ui';
 
+/*
+
+TODO:
+  - mobile: sidebar onhide close
+  - non transparent pwa icon
+  - rearrange on mobile and sidebar
+  - offline popup
+  - reconnect subs
+  - send value slider onchange
+  - hue bar
+
+*/
+
 const pages = {
   "/": HomePage,
   "/layout": LayoutPage,
