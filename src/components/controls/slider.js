@@ -13,7 +13,6 @@ class CSlider extends React.Component {
         if (!this.props.var) {
             console.error("CSlider: No var given");
         }
-        this.closing = false;
     }
 
     componentDidMount() {
@@ -30,7 +29,6 @@ class CSlider extends React.Component {
     }
 
     componentWillUnmount() {
-        this.closing = true;
         this.closeSub();
     }
 
@@ -48,7 +46,7 @@ class CSlider extends React.Component {
     send() {
         if (this.props.var) {
             if (this.state.value !== this.state.last) {
-                CloseRest.varSet(this.props.var, this.state.value);
+                CloseRest.varSet(this.props.var, this.state.value, this.props.forceSend);
                 this.setState({ last: this.state.value });
             }
         }

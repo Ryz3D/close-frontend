@@ -6,7 +6,6 @@ class CButton extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 0
         };
         if (!this.props.var) {
             console.error("CButton: No var given");
@@ -16,16 +15,10 @@ class CButton extends React.Component {
         }
     }
 
-    componentDidMount() {
-        CloseRest.varGet(this.props.var)
-            .then(value => this.setState({
-                value: parseFloat(value)
-            }));
-    }
-
     render() {
         return <>
-            <sui.Button style={{color: '#9f35cc'}} icon={this.props.icon} onClick={_ => CloseRest.varSet(this.props.var, this.props.value)}>
+            <sui.Button style={{color: '#9f35cc'}} icon={this.props.icon}
+                onClick={_ => CloseRest.varSet(this.props.var, this.props.value, this.props.forceSend)}>
                 {this.props.content || this.props.children}
             </sui.Button>
         </>;

@@ -70,9 +70,9 @@ class CloseRest {
         });
     }
 
-    static varSet(id, val) {
+    static varSet(id, val, force = false) {
         return new Promise(resolve => {
-            this.rest(`var/set?q=${encodeURIComponent(id)}&v=${encodeURIComponent(val)}`).then(resolve);
+            this.rest(`var/set?q=${encodeURIComponent(id)}&v=${encodeURIComponent(val)}$f=${force ? 1 : 0}`).then(resolve);
         });
     }
 
