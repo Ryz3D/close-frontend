@@ -12,9 +12,6 @@ class AboutPage extends React.Component {
     render() {
         return (
             <div>
-                <Header>
-                    About
-                </Header>
             </div>
         );
     }

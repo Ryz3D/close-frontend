@@ -12,9 +12,6 @@ class VariablesPage extends React.Component {
     render() {
         return (
             <div>
-                <Header>
-                    Variables
-                </Header>
             </div>
         );
     }

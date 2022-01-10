@@ -36,5 +36,8 @@
     "@semantic-ui-react/craco-less": "^1.2.1",
     "semantic-ui-less": "^2.4.1",
     "web-vitals": "^2.1.2"
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   }
 }

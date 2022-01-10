@@ -1,9 +1,10 @@
 import React from 'react';
+import * as sui from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import CloseRest from '../data/closeRest';
 import LayoutView from '../components/layoutView';
 
-class HomePage extends React.Component {
+class ViewPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,13 +12,13 @@ class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        const id = localStorage.getItem("homepage");
+        const id = new URLSearchParams(window.location.search).get("id") || "";
         CloseRest.layoutList()
             .then(list => {
                 if (list === undefined) {
                     this.props.history.push("/");
                 } else if (list.find(e => e === id) === undefined) {
-                    this.props.history.push("/homeSet");
+                    this.props.history.push("/layouts");
                 }
                 else {
                     CloseRest.layoutGet(id)
@@ -39,4 +40,4 @@ class HomePage extends React.Component {
     }
 }
 
-export default withRouter(HomePage);
+export default withRouter(ViewPage);

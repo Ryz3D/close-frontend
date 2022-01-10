@@ -11,15 +11,8 @@ class SettingsPage extends React.Component {
     }
 
     render() {
-        const inputField = {
-            width: this.props.windowWidth > 1200 ? "60%" : "85%",
-        };
-
         return (
             <div>
-                <Header>
-                    Settings
-                </Header>
                 <sui.Form>
                     <sui.Label><sui.Icon name="columns" />Homepage</sui.Label>
                     <sui.Dropdown labeled

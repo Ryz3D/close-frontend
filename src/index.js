@@ -2,57 +2,49 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import registerServiceWorker from 'react-service-worker';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 
 import './index.css';
 import 'semantic-ui-less/semantic.less';
 
+import IndexPage from './pages/index';
 import HomePage from './pages/home';
-import LayoutPage from './pages/layout';
-import PagesPage from './pages/pages';
+import HomeSetPage from './pages/homeSet';
+import ViewPage from './pages/view';
+import LayoutsPage from './pages/layouts';
 import VariablesPage from './pages/variables';
 import SettingsPage from './pages/settings';
 import AboutPage from './pages/about';
 import NotFoundPage from './pages/404';
 
 import UIComponent from './components/ui';
-import CloseRest from './data/closeRest';
 
 /*
 
 TODO:
-  - mobile: sidebar onhide close
+  - rollershutter columns (columns are always 100% width?)
+  - icon format language
+  - toogle buttons sometimes need reload (and sometimes do spooky toggles)
   - non transparent pwa icon
   - rearrange on mobile and sidebar
   - offline popup
-  - reconnect subs
-  - send value slider onchange
+  - reconnect sub
   - hue bar
 
 */
-
-const pages = {
-  "/": HomePage,
-  "/layout": LayoutPage,
-  "/pages": PagesPage,
-  "/variables": VariablesPage,
-  "/settings": SettingsPage,
-  "/about": AboutPage,
-};
-
-CloseRest.varSubConnect();
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Switch>
-        {Object.entries(pages).map(i =>
-          <Route path={i[0]} exact key={i[0]}>
-            <UIComponent>
-              {React.createElement(i[1])}
-            </UIComponent>
-          </Route>
-        )}
+        <Route path="/" exact><IndexPage /></Route>
+        <Route path="/home"><UIComponent header="Home"><HomePage /></UIComponent></Route>
+        <Route path="/homeSet"><UIComponent header="Set Homepage"><HomeSetPage /></UIComponent></Route>
+        <Route path="/view"><UIComponent header="Layout"><ViewPage /></UIComponent></Route>
+        <Route path="/layouts"><UIComponent header="Layouts"><LayoutsPage /></UIComponent></Route>
+        <Route path="/variables"><UIComponent header="Variables"><VariablesPage /></UIComponent></Route>
+        <Route path="/settings"><UIComponent header="Settings"><SettingsPage /></UIComponent></Route>
+        <Route path="/about"><UIComponent header="About"><AboutPage /></UIComponent></Route>
         <Route component={NotFoundPage} />
       </Switch>
     </Router>

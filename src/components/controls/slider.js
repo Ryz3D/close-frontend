@@ -90,7 +90,7 @@ class CSlider extends React.Component {
                 }
             </div>
         </>;
-    } // TODO: SEND IN INTERVALS WHILE MOVING
+    }
 }
 
 export default CSlider;

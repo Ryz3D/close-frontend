@@ -1,5 +1,6 @@
 class CloseRest {
     static host = process.env.NODE_ENV === "production" ? "/api/" : "http://localhost:8087/api/";
+    static auth = "";
     static varCb = {};
     static subConnection;
 
@@ -7,7 +8,7 @@ class CloseRest {
         return new Promise(resolve => {
             fetch(`${this.host}${req}`, {
                 headers: {
-                    "Authorization": "Basic YWRtaW46c21hcnRob21l",
+                    "Authorization": `Basic ${this.auth}`,
                 },
             })
                 .then(r => {
@@ -25,12 +26,17 @@ class CloseRest {
                     }
                 })
                 .then(d => {
-                    if (d.error !== 0) {
-                        console.error(d.message);
+                    if (d === undefined) {
                         resolve();
                     }
                     else {
-                        resolve(d.data);
+                        if (d.error !== 0) {
+                            console.error(d.message);
+                            resolve();
+                        }
+                        else {
+                            resolve(d.data);
+                        }
                     }
                 })
                 .catch(e => {
@@ -88,18 +94,22 @@ class CloseRest {
                 });
                 this.varList()
                     .then(vars => {
-                        for (var v of vars) {
-                            const idBuf = v;
-                            this.subConnection.addEventListener(v, e => {
-                                if (this.varCb[idBuf] !== undefined) {
-                                    for (var cb of this.varCb[idBuf]) {
-                                        cb(e.data);
+                        if (vars !== undefined) {
+                            for (var v of vars) {
+                                const idBuf = v;
+                                this.subConnection.addEventListener(v, e => {
+                                    if (this.varCb[idBuf] !== undefined) {
+                                        for (var cb of this.varCb[idBuf]) {
+                                            if (cb !== undefined) {
+                                                cb(e.data);
+                                            }
+                                        }
                                     }
-                                }
-                                console.log(`${idBuf} -> ${e.data}`);
-                            });
+                                });
+                            }
+                            resolve(_ => this.subConnection.close());
                         }
-                        resolve(_ => this.subConnection.close());
+                        resolve();
                     });
             }
         });

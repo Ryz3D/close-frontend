@@ -10,18 +10,25 @@ class CButton extends React.Component {
         if (!this.props.var) {
             console.error("CButton: No var given");
         }
-        if (!this.props.value) {
-            console.error("CButton: No value given");
+        if (this.props.value === undefined) {
+            console.error(`CButton: No value given for var "${this.props.var}"`);
+        }
+    }
+
+    send() {
+        if (this.props.var && this.props.value) {
+            CloseRest.varSet(this.props.var, this.props.value, this.props.forceSend);
         }
     }
 
     render() {
-        return <>
-            <sui.Button style={{color: '#9f35cc'}} icon={this.props.icon}
-                onClick={_ => CloseRest.varSet(this.props.var, this.props.value, this.props.forceSend)}>
-                {this.props.content || this.props.children}
-            </sui.Button>
-        </>;
+        return (
+            <>
+                <sui.Button inverted primary icon={this.props.icon} fluid onClick={_ => this.send()}>
+                    {this.props.text || this.props.children}
+                </sui.Button>
+            </>
+        );
     }
 }
 
