@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import * as sui from 'semantic-ui-react';
-import Header from '../components/header';
+import LinkList from '../components/linkList';
 import CloseRest from '../data/closeRest';
+import TextFormatter from '../data/textFormatter';
 
 class LayoutsPage extends React.Component {
     constructor(props) {
@@ -21,22 +21,16 @@ class LayoutsPage extends React.Component {
             });
     }
 
-    transformName(s) {
-        return s[0].toUpperCase() + s.substr(1);
-    }
-
     render() {
         return (
-            <div style={{ marginLeft: '10mm' }}>
-                <sui.List bulleted relaxed animated size='large'>
-                    {this.state.layouts.map(id => (
-                        <>
-                            <sui.List.Item as={Link} to={`/view?id=${id}`}>
-                                {this.transformName(id)}
-                            </sui.List.Item>
-                        </>
-                    ))}
-                </sui.List>
+            <div style={{ marginLeft: '10%', marginTop: '10px' }}>
+                <LinkList items={this.state.layouts.sort((a, b) => b - a).map(id => [
+                    <>
+                        <sui.Icon name={localStorage.getItem('homepage') === id ? 'home' : 'columns'} />
+                        {TextFormatter.formatName(id)}
+                    </>,
+                    `/view?id=${id}`,
+                ])} />
             </div>
         );
     }

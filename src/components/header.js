@@ -3,7 +3,15 @@ import * as sui from "semantic-ui-react";
 
 class Header extends React.Component {
     render() {
+        const noSelect = {
+            MozUserSelect: 'none',
+            WebkitUserSelect: 'none',
+            MsUserSelect: 'none',
+            userSelect: 'none',
+            OUserSelect: 'none',
+        };
         const header = {
+            ...noSelect,
             position: 'absolute',
             left: '17mm',
             right: this.props.sidebar ? 'calc(17mm + 150px)' : '17mm',

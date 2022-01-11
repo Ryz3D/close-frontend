@@ -1,70 +1,51 @@
 import React from "react";
 import * as sui from "semantic-ui-react";
-import CButton from "./controls/button";
-import CSlider from "./controls/slider";
-import CToggle from "./controls/toggle";
-import CNotImplemented from "./controls/notImplemented";
+import Control from "./control";
 
 class GridComponent extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    wrapControl(data, component) {
-        var newComp = (
-            <sui.Card fluid>
-                <sui.Card.Header>
-                    {data.header || ""}
-                </sui.Card.Header>
-                <sui.Card.Content>
-                    {component}
-                </sui.Card.Content>
-            </sui.Card>
-        );
-        if (this.props.isRow) {
-            return (
-                <sui.Grid.Column>
-                    {newComp}
-                </sui.Grid.Column>
-            );
-        }
-        else {
-            return newComp;
-        }
-    }
-
     render() {
-        var childComponents = [];
-        for (var c of Object.entries(this.props.layout)) {
+        const props = {
+            ...this.props,
+            layout: undefined,
+        };
+        const iscol = this.props.isCol || this.props.first;
+
+        var childComponents = Object.entries(this.props.layout).map(c => {
             if (c[1].type === undefined) {
-                childComponents.push(<GridComponent isRow={!this.props.isRow} layout={c[1]} />);
+                return <GridComponent {...{ ...this.props, first: false, iscol: !iscol, layout: c[1] }} />;
             }
             else {
-                var component = {
-                    button: CButton,
-                    toggle: CToggle,
-                    slider: CSlider,
-                }[c[1].type];
-                if (component === undefined) {
-                    console.warn(`${c[1].type} is not implemented`);
-                    component = CNotImplemented;
+                const comp = <Control {...c[1]} />;
+                if (iscol) {
+                    return <sui.Grid.Row>{comp}</sui.Grid.Row>;
                 }
-                childComponents.push(this.wrapControl(c[1], React.createElement(component, c[1])));
+                else {
+                    return <sui.Grid.Column>{comp}</sui.Grid.Column>;
+                }
             }
-        }
+        });
 
-        if (this.props.isRow) {
-            return (
-                <sui.Grid.Row>
-                    {childComponents}
-                </sui.Grid.Row>
-            );
+        if (iscol) {
+            if (this.props.first) {
+                return (
+                    <sui.Grid {...props}>
+                        {childComponents}
+                    </sui.Grid>
+                );
+            }
+            else {
+                return (
+                    <sui.Grid.Column {...props}>
+                        {childComponents}
+                    </sui.Grid.Column>
+                );
+            }
         }
         else {
             return (
-                <sui.Grid.Column>
+                <sui.Grid.Row {...props} columns={(childComponents || []).length}>
                     {childComponents}
-                </sui.Grid.Column>
+                </sui.Grid.Row>
             );
         }
     }

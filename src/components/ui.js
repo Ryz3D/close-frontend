@@ -50,21 +50,27 @@ class UIComponent extends React.Component {
             minWidth: '100vw',
             minHeight: '100vh',
         };
-        const screenPusher = {
+        const pushable = {
             ...screenSize,
-            minWidth: '',
-            right: (this.state.sidebar && loggedIn) ? '150px' : '0',
-            margin: '0',
-            transition: 'transform 500ms ease, right 500ms ease',
+            overflow: 'hidden',
         };
         const root = {
             ...screenSize,
             backgroundColor: '#ddd',
         };
+        const screenPusher = {
+            ...screenSize,
+            minWidth: '',
+            right: (this.state.sidebar && loggedIn) ? '150px' : '0',
+            bottom: '0',
+            margin: '0',
+            transition: 'transform 500ms ease, right 500ms ease',
+            overflow: 'hidden scroll',
+        };
         const sidebarBtn = {
             position: "fixed",
-            top: "2mm",
-            left: "2mm",
+            top: "4mm",
+            left: "4mm",
             zIndex: 10,
             backgroundColor: "#9f35ccb0",
             transition: "opacity 1s",
@@ -76,6 +82,14 @@ class UIComponent extends React.Component {
             ...sidebarBtn,
             opacity: this.state.sidebar ? 0 : 1,
         };
+        const noSelect = {
+            MozUserSelect: 'none',
+            WebkitUserSelect: 'none',
+            MsUserSelect: 'none',
+            userSelect: 'none',
+            OUserSelect: 'none',
+        };
+
         const homeLink = localStorage.getItem("homepage") === undefined ? "/homeSet" : "/home";
         const pages = [
             { key: homeLink, name: "Home", icon: "home" },
@@ -87,7 +101,7 @@ class UIComponent extends React.Component {
 
         const header = (
             <>
-                <sui.Button style={sidebarBtn2} size="small" circular icon="sidebar" onClick={_ => this.toggleSidebar()} />
+                <sui.Button style={sidebarBtn2} size="medium" circular icon="sidebar" onClick={_ => this.toggleSidebar()} />
                 {this.props.subHeader && <Header sub>{this.props.subHeader}</Header>}
                 {this.props.header && <Header>{this.props.header}</Header>}
             </>
@@ -101,12 +115,12 @@ class UIComponent extends React.Component {
                     </title>
                 </Helmet>
                 {loggedIn ?
-                    <sui.Sidebar.Pushable style={{ ...screenSize, overflow: "hidden" }}>
-                        <sui.Sidebar width="thin" animation="slide out" inverted vertical visible={this.state.sidebar} as={sui.Menu}>
-                            <sui.Button style={sidebarBtn1} size="tiny" circular icon="x" onClick={_ => this.toggleSidebar()} />
+                    <sui.Sidebar.Pushable style={pushable}>
+                        <sui.Sidebar style={noSelect} width="thin" animation="slide out" inverted vertical visible={this.state.sidebar} as={sui.Menu}>
+                            <sui.Button style={sidebarBtn1} size="small" circular icon="x" onClick={_ => this.toggleSidebar()} />
                             <sui.Menu.Header>
                                 <sui.Header inverted textAlign="center" style={{ marginTop: "12mm", marginBottom: "10px" }}>
-                                    <sui.Image src={logo} />
+                                    <sui.Image src={logo} size="massive" style={{pointerEvents: 'none'}} />
                                     <br />
                                     closedHAB
                                 </sui.Header>

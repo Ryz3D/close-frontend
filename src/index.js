@@ -22,14 +22,17 @@ import UIComponent from './components/ui';
 /*
 
 TODO:
-  - rollershutter columns (columns are always 100% width?)
-  - icon format language
-  - toogle buttons sometimes need reload (and sometimes do spooky toggles)
+  - more settings
+  - dark mode based on var (e.g. light brightness)
+  - homekit always expects number and sets aggressively (STOP not accepted)
+    -> different windowcovering characteristic?
+    -> ignore homekit requests?
+    -> id marked subs?
   - non transparent pwa icon
-  - rearrange on mobile and sidebar
   - offline popup
   - reconnect sub
-  - hue bar
+  - closerest: buffer var values and send on cb register
+  - variable page sub
 
 */
 

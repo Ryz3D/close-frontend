@@ -2,6 +2,7 @@ import "./slider.css";
 import React from "react";
 import * as sui from "semantic-ui-react";
 import CloseRest from "../../data/closeRest";
+import TextFormatter from "../../data/textFormatter";
 
 class CToggle extends React.Component {
     constructor(props) {
@@ -36,9 +37,14 @@ class CToggle extends React.Component {
     }
 
     render() {
+        const btn = {
+            height: '60px',
+            fontSize: '1.2rem',
+        };
+
         return <>
-            <sui.Button primary={this.state.value >= 0.5} fluid toggle onClick={_ => this.send()}>
-                {this.props.text || this.props.children}
+            <sui.Button style={btn} primary={this.state.value >= 0.5} fluid toggle onClick={_ => this.send()}>
+                {TextFormatter.format(this.props.text || this.props.children)}
             </sui.Button>
         </>;
     }

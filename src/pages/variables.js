@@ -1,17 +1,125 @@
 import React from 'react';
 import * as sui from 'semantic-ui-react';
-import Header from '../components/header';
+import CloseRest from '../data/closeRest';
 
 class VariablesPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            vars: {},
+            edit: undefined,
+            editValue: "",
+            editLoading: false,
         };
+        this.inputRef = React.createRef();
+    }
+
+    reloadVars() {
+        CloseRest.varList()
+            .then(vars => {
+                if (vars !== undefined) {
+                    for (var v of vars) {
+                        const id = v;
+                        CloseRest.varGet(id)
+                            .then(data => {
+                                const newVars = { ...this.state.vars };
+                                newVars[id] = data;
+                                this.setState({
+                                    vars: newVars,
+                                });
+                            });
+                    }
+                }
+            });
+    }
+
+    componentDidMount() {
+        this.reloadVars();
+    }
+
+    cancelEdit() {
+        this.setState({
+            edit: undefined,
+            editValue: "",
+            editLoading: false,
+        });
+    }
+
+    saveEdit() {
+        this.setState({
+            editLoading: true,
+        }, _ => {
+            CloseRest.varSet(this.state.edit, this.state.editValue, true)
+                .then(_ => {
+                    CloseRest.varGet(this.state.edit)
+                        .then(d => {
+                            this.setState({
+                                edit: undefined,
+                                editValue: "",
+                                editLoading: false,
+                                vars: { ...this.state.vars, [this.state.edit]: d },
+                            });
+                        });
+                });
+        });
+    }
+
+    handleEditKey(e) {
+        if (e.keyCode === 13) {
+            this.saveEdit();
+        }
     }
 
     render() {
         return (
             <div>
+                <sui.Modal open={this.state.edit ? true : false} onClose={_ => this.cancelEdit()}>
+                    <sui.Modal.Header>
+                        Editing var '{this.state.edit}'
+                    </sui.Modal.Header>
+                    <sui.Modal.Content>
+                        <sui.Input fluid label="Value" value={this.state.editValue} focus ref={this.inputRef}
+                            onChange={e => this.setState({ editValue: e.target.value })} onKeyDown={e => this.handleEditKey(e)} />
+                    </sui.Modal.Content>
+                    <sui.Modal.Actions>
+                        <sui.Button onClick={_ => this.cancelEdit()}
+                            disabled={this.state.editLoading}>
+                            <sui.Icon name="x" />
+                            Cancel
+                        </sui.Button>
+                        <sui.Button primary onClick={_ => this.saveEdit()}
+                            disabled={this.state.editLoading} loading={this.state.editLoading}>
+                            <sui.Icon name="send" />
+                            Send
+                        </sui.Button>
+                    </sui.Modal.Actions>
+                </sui.Modal>
+
+                <sui.Grid celled="internally" centered columns={2}>
+                    <sui.Grid.Row columns={2}>
+                        <sui.Grid.Column style={{ textAlign: 'right' }}>
+                            <b>ID</b>
+                        </sui.Grid.Column>
+                        <sui.Grid.Column>
+                            <b>Value</b>
+                        </sui.Grid.Column>
+                    </sui.Grid.Row>
+                    {Object.entries(this.state.vars).sort((a, b) => b[0] - a[0]).map(v => (
+                        <sui.Grid.Row columns={2}>
+                            <sui.Grid.Column style={{ overflow: 'hidden', textAlign: 'right', marginTop: v[1] === undefined ? '3px' : '8px' }}>
+                                {v[0]}
+                            </sui.Grid.Column>
+                            <sui.Grid.Column style={{ overflow: 'hidden' }}>
+                                <sui.Button basic onClick={_ => this.setState({
+                                    edit: v[0],
+                                    editValue: v[1],
+                                }, _ => this.inputRef.current.select())}>
+                                    {v[1]}
+                                </sui.Button>
+                            </sui.Grid.Column>
+                        </sui.Grid.Row>
+                    ))}
+                </sui.Grid>
             </div>
         );
     }
