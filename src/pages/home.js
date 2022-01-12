@@ -11,7 +11,7 @@ class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        const id = localStorage.getItem("homepage");
+        const id = localStorage.getItem("homepage") || "";
         CloseRest.layoutList()
             .then(list => {
                 if (list === undefined) {
