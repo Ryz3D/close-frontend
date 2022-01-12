@@ -3,7 +3,7 @@ import * as sui from "semantic-ui-react";
 
 class TextFormatter {
     static formatName(name) {
-        return name[0].toUpperCase() + name.substr(1);
+        return (name[0].toUpperCase() + name.substr(1)).replace("_", " ");
     }
 
     static format(text) {
@@ -25,7 +25,7 @@ class TextFormatter {
                 const icon = m[0].substring(5, m[0].length - 1);
                 const after = text.substring(m.index + m[0].length, nextIndex);
                 if (icon) {
-                    result.push(<sui.Icon name={icon} />);
+                    result.push(<sui.Icon name={icon} style={{ margin: '0' }} />);
                 }
                 if (after) {
                     result.push(<>{after}</>);

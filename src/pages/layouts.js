@@ -22,15 +22,18 @@ class LayoutsPage extends React.Component {
     }
 
     render() {
+        const home = localStorage.getItem("homepage");
+
         return (
             <div style={{ marginLeft: '10%', marginTop: '10px' }}>
-                <LinkList items={this.state.layouts.sort((a, b) => b - a).map(id => [
-                    <>
-                        <sui.Icon name={localStorage.getItem('homepage') === id ? 'home' : 'columns'} />
+                <LinkList items={this.state.layouts.sort().map(id => ({
+                    elem: <>
+                        <sui.Icon name={home === id ? 'home' : 'columns'} style={{ marginRight: '5px' }} />
                         {TextFormatter.formatName(id)}
                     </>,
-                    `/view?id=${id}`,
-                ])} />
+                    link: `/view?id=${id}`,
+                    active: home === id,
+                }))} />
             </div>
         );
     }

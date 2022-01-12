@@ -19,7 +19,6 @@ class Control extends React.Component {
             header: CHeader,
         }[this.props.type];
         if (component === undefined) {
-            console.warn(`${this.props.type} is not implemented`);
             component = CNotImplemented;
         }
 

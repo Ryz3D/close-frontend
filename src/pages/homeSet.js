@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import * as sui from 'semantic-ui-react';
 import CloseRest from '../data/closeRest';
 import TextFormatter from '../data/textFormatter';
@@ -32,6 +33,8 @@ class HomeSetPage extends React.Component {
     }
 
     render() {
+        const back = new URLSearchParams(window.location.search).get('b');
+
         const form = {
             width: '80%',
             margin: 'auto',
@@ -40,11 +43,21 @@ class HomeSetPage extends React.Component {
         return (
             <div>
                 <sui.Form style={form}>
+                    {back !== null &&
+                        <>
+                            <sui.Button inverted secondary as={Link} to={"/" + back}>
+                                <sui.Icon name='left arrow' />
+                                Back
+                            </sui.Button>
+                            <br />
+                            <br />
+                        </>
+                    }
                     <sui.Form.Field>
                         <label>Select Homepage:</label>
                         <sui.Dropdown fluid button header="Layouts" style={{ backgroundColor: '#fff' }}
-                            value={this.state.selected} onChange={(e, t) => this.setState({
-                                selected: t.value,
+                            value={this.state.selected} onChange={(e, { value }) => this.setState({
+                                selected: value,
                                 saved: false,
                             })}
                             options={this.state.layouts.sort((a, b) => b - a).map(l => ({

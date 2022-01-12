@@ -14,7 +14,7 @@ class LayoutView extends React.Component {
             left: '50%',
             transform: 'translate(-50%, 0)',
             maxWidth: '1000px',
-            width: this.props.windowWidth > 600 ? '85%' : '95%',
+            width: this.props.windowWidth >= 400 ? '85%' : '95%',
         };
 
         if (this.props.layout === undefined) {
@@ -24,7 +24,7 @@ class LayoutView extends React.Component {
             case "grid":
                 return (
                     <div style={gridRoot}>
-                        <GridComponent layout={this.props.layout.grid} padded={this.props.windowWidth > 600} first={true} />
+                        <GridComponent layout={this.props.layout.grid} padded={this.props.windowWidth >= 400} first={true} />
                     </div>
                 );
             default:

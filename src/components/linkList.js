@@ -7,8 +7,8 @@ class LinkList extends React.Component {
         return (
             <sui.List bulleted relaxed animated size='big'>
                 {this.props.items.map(item => (
-                    <sui.List.Item as={Link} to={item[1]}>
-                        {item[0]}
+                    <sui.List.Item active={item.active} style={{ marginTop: '10px' }} as={Link} to={item.link}>
+                        {React.createElement(item.active ? 'b' : 'div', {}, item.elem)}
                     </sui.List.Item>
                 ))}
             </sui.List>

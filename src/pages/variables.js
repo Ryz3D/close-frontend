@@ -104,17 +104,23 @@ class VariablesPage extends React.Component {
                             <b>Value</b>
                         </sui.Grid.Column>
                     </sui.Grid.Row>
-                    {Object.entries(this.state.vars).sort((a, b) => b[0] - a[0]).map(v => (
+                    {Object.keys(this.state.vars).sort().map(v => (
                         <sui.Grid.Row columns={2}>
-                            <sui.Grid.Column style={{ overflow: 'hidden', textAlign: 'right', marginTop: v[1] === undefined ? '3px' : '8px' }}>
-                                {v[0]}
+                            <sui.Grid.Column style={{
+                                overflow: 'hidden',
+                                textAlign: 'right',
+                                marginTop: this.state.vars[v] === undefined ? '3px' : '8px'
+                            }}>
+                                {v}
                             </sui.Grid.Column>
-                            <sui.Grid.Column style={{ overflow: 'hidden' }}>
+                            <sui.Grid.Column style={{
+                                overflow: 'hidden',
+                            }}>
                                 <sui.Button basic onClick={_ => this.setState({
-                                    edit: v[0],
-                                    editValue: v[1],
+                                    edit: v,
+                                    editValue: this.state.vars[v],
                                 }, _ => this.inputRef.current.select())}>
-                                    {v[1]}
+                                    {this.state.vars[v]}
                                 </sui.Button>
                             </sui.Grid.Column>
                         </sui.Grid.Row>

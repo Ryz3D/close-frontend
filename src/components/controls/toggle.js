@@ -40,13 +40,18 @@ class CToggle extends React.Component {
         const btn = {
             height: '60px',
             fontSize: '1.2rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
         };
 
-        return <>
-            <sui.Button style={btn} primary={this.state.value >= 0.5} fluid toggle onClick={_ => this.send()}>
-                {TextFormatter.format(this.props.text || this.props.children)}
-            </sui.Button>
-        </>;
+        return (
+            <>
+                <sui.Button style={btn} primary={this.state.value >= 0.5} fluid={!this.props.nonFluid} toggle onClick={_ => this.send()}>
+                    {TextFormatter.format(this.props.text || this.props.children)}
+                </sui.Button>
+            </>
+        );
     }
 }
 

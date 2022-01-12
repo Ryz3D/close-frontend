@@ -56,8 +56,8 @@ class IndexPage extends React.Component {
         const auth = Buffer.from(`${this.state.user}:${this.state.pass}`).toString("base64");
 
         const form = {
-            width: '10cm',
             margin: 'auto',
+            maxWidth: 'min(10cm, 85%)',
         };
         const button = {
             backgroundColor: '#9f35cc',

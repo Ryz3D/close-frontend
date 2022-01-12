@@ -3,16 +3,33 @@ import * as sui from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import CloseRest from '../data/closeRest';
+import TextFormatter from '../data/textFormatter';
 import logo from '../img/logo.png';
 import Header from './header';
+import reactWindowSize from 'react-window-size';
 
 class UIComponent extends React.Component {
     constructor(props) {
         super(props);
+        var sidebar = 0;
+        switch (localStorage.getItem("sidebarSettings")) {
+            default:
+            case "0":
+                sidebar = (localStorage.getItem("sidebar") || "1") === "1";
+                break;
+            case "1":
+                sidebar = false;
+                break;
+            case "2":
+                sidebar = true;
+                break;
+        }
         this.state = {
             setup: {},
-            sidebar: (localStorage.getItem("sidebar") || "1") === "1",
+            sidebar,
         };
+        this.headerRef = React.createRef();
+
         CloseRest.auth = localStorage.getItem("auth") || "";
         CloseRest.varSubConnect();
     }
@@ -31,17 +48,24 @@ class UIComponent extends React.Component {
             });
     }
 
-    toggleSidebar() {
-        this.setState({
-            sidebar: !this.state.sidebar,
-        }, _ => {
-            localStorage.setItem("sidebar", this.state.sidebar ? "1" : "0");
-        });
+    showSidebar() {
+        this.setState({ sidebar: 1 });
+        localStorage.setItem("sidebar", "1");
+    }
+
+    hideSidebar() {
+        this.setState({ sidebar: 0 });
+        localStorage.setItem("sidebar", "0");
     }
 
     render() {
         const path = document.location.pathname;
         const loggedIn = this.props.loggedIn === undefined ? true : this.props.loggedIn;
+
+        var sidebar = this.state.sidebar;
+        if (!parseInt(localStorage.getItem("disableSidebarHide")) && this.props.windowWidth < 600) {
+            sidebar = false;
+        }
 
         const screenSize = {
             position: 'fixed',
@@ -61,7 +85,7 @@ class UIComponent extends React.Component {
         const screenPusher = {
             ...screenSize,
             minWidth: '',
-            right: (this.state.sidebar && loggedIn) ? '150px' : '0',
+            right: (sidebar && loggedIn) ? '150px' : '0',
             bottom: '0',
             margin: '0',
             transition: 'transform 500ms ease, right 500ms ease',
@@ -80,7 +104,7 @@ class UIComponent extends React.Component {
         };
         const sidebarBtn2 = {
             ...sidebarBtn,
-            opacity: this.state.sidebar ? 0 : 1,
+            opacity: sidebar ? 0 : 1,
         };
         const noSelect = {
             MozUserSelect: 'none',
@@ -99,11 +123,19 @@ class UIComponent extends React.Component {
             { key: "/about", name: "About", icon: "info" },
         ];
 
+        var headerExt = "";
+        if (window.location.pathname === "/home") {
+            headerExt = " - " + TextFormatter.formatName(localStorage.getItem("homepage") || "");
+        }
+        else if (window.location.pathname === "/view") {
+            headerExt = " - " + TextFormatter.formatName(new URLSearchParams(window.location.search).get("id") || "");
+        }
+
         const header = (
             <>
-                <sui.Button style={sidebarBtn2} size="medium" circular icon="sidebar" onClick={_ => this.toggleSidebar()} />
-                {this.props.subHeader && <Header sub>{this.props.subHeader}</Header>}
-                {this.props.header && <Header>{this.props.header}</Header>}
+                {loggedIn && <sui.Button style={sidebarBtn2} size="medium" circular icon="sidebar" onClick={_ => this.showSidebar()} />}
+                {this.props.subHeader && <Header sub sidebar={sidebar}>{this.props.subHeader}</Header>}
+                {this.props.header && <Header sidebar={sidebar}>{this.props.header + headerExt}</Header>}
             </>
         );
 
@@ -116,11 +148,11 @@ class UIComponent extends React.Component {
                 </Helmet>
                 {loggedIn ?
                     <sui.Sidebar.Pushable style={pushable}>
-                        <sui.Sidebar style={noSelect} width="thin" animation="slide out" inverted vertical visible={this.state.sidebar} as={sui.Menu}>
-                            <sui.Button style={sidebarBtn1} size="small" circular icon="x" onClick={_ => this.toggleSidebar()} />
+                        <sui.Sidebar style={noSelect} width="thin" animation="slide out" inverted vertical visible={sidebar} as={sui.Menu}>
+                            <sui.Button style={sidebarBtn1} size="small" circular icon="x" onClick={_ => this.hideSidebar()} />
                             <sui.Menu.Header>
                                 <sui.Header inverted textAlign="center" style={{ marginTop: "12mm", marginBottom: "10px" }}>
-                                    <sui.Image src={logo} size="massive" style={{pointerEvents: 'none'}} />
+                                    <sui.Image src={logo} size="massive" style={{ pointerEvents: 'none' }} />
                                     <br />
                                     closedHAB
                                 </sui.Header>
@@ -155,4 +187,4 @@ class UIComponent extends React.Component {
     }
 }
 
-export default UIComponent;
+export default reactWindowSize(UIComponent);

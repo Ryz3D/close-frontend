@@ -1,5 +1,5 @@
 class CloseRest {
-    static host = process.env.NODE_ENV === "production" ? "/api/" : "http://localhost:8087/api/";
+    static host = process.env.NODE_ENV === "production" ? "/api/" : `${window.location.protocol}//${window.location.hostname}:8087/api/`;
     static auth = "";
     static varCb = {};
     static subConnection;
@@ -31,7 +31,9 @@ class CloseRest {
                     }
                     else {
                         if (d.error !== 0) {
-                            console.error(d.message);
+                            if (d.message !== "uninitialized") {
+                                console.error("Close", d.error, d.message);
+                            }
                             resolve();
                         }
                         else {

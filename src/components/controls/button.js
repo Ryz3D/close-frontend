@@ -22,18 +22,18 @@ class CButton extends React.Component {
 
     render() {
         const btn = {
+            width: 'min(20vw, 250px)',
             height: '60px',
             fontSize: '1.2rem',
-            width: 'min(20vw, 250px)',
-            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
         };
 
         return (
             <>
-                <sui.Button inverted primary icon={this.props.icon} style={btn} fluid onClick={_ => this.send()}>
-                    <div style={{ position: 'relative', left: '50%', transform: 'translate(-50%, 0)', width: '19px' }}>
-                        {TextFormatter.format(this.props.text || this.props.children)}
-                    </div>
+                <sui.Button inverted primary icon={this.props.icon} style={btn} fluid={!this.props.nonFluid} onClick={_ => this.send()}>
+                    {TextFormatter.format(this.props.text || this.props.children)}
                 </sui.Button>
             </>
         );

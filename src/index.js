@@ -22,12 +22,6 @@ import UIComponent from './components/ui';
 /*
 
 TODO:
-  - disable zoom (at least mobile)
-  - item overlap in layouts on mobile
-  - push ui down with double line header
-  - bigger sidebar button
-  - more settings
-    -> sidebar save/set
   - dark mode based on var (e.g. light brightness)
   - homekit always expects number and sets aggressively (STOP not accepted)
     -> different windowcovering characteristic?
@@ -38,6 +32,7 @@ TODO:
   - reconnect sub
   - closerest: buffer var values and send on cb register
   - variable page sub
+  - log page (i.e. homekit)
 
 */
 
