@@ -1,6 +1,6 @@
 # close-frontend
 
-### The official frontend for [closedHAB](https://github.com/Ryz3D/closedHAB)
+### The official frontend of [closedHAB](https://github.com/Ryz3D/closedHAB)!
 
 This is the frontend part of the ["close" addon](https://github.com/Ryz3D/closedHAB/blob/master/setup/addons/close.js) for [closedHAB](https://github.com/Ryz3D/closedHAB). The addon also provides a REST/SSE API for closedHAB that this web app uses.
 
