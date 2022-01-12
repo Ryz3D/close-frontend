@@ -8,14 +8,14 @@ class GridComponent extends React.Component {
             ...this.props,
             layout: undefined,
         };
-        const iscol = this.props.isCol || this.props.first;
+        const iscol = this.props.iscol || this.props.first;
 
         var childComponents = Object.entries(this.props.layout).map(c => {
             if (c[1].type === undefined) {
                 return <GridComponent {...{ ...this.props, first: false, iscol: !iscol, layout: c[1] }} />;
             }
             else {
-                const comp = <Control {...c[1]} />;
+                const comp = <Control {...c[1]} iscol={this.props.iscol} />;
                 if (iscol) {
                     return <sui.Grid.Row>{comp}</sui.Grid.Row>;
                 }

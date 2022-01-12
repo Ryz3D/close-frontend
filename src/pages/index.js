@@ -19,14 +19,7 @@ class IndexPage extends React.Component {
     }
 
     componentDidMount() {
-        if (localStorage.getItem("auth") !== undefined) {
-            this.login(localStorage.getItem("auth"), true);
-        }
-        else {
-            this.setState({
-                initialLoad: false,
-            });
-        }
+        this.login(localStorage.getItem("auth") || "", true);
     }
 
     login(auth, initial = false) {

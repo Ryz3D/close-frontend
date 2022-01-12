@@ -22,7 +22,7 @@ class CButton extends React.Component {
 
     render() {
         const btn = {
-            width: 'min(20vw, 250px)',
+            maxWidth: this.props.iscol ? '' : 'min(20vw, 250px)',
             height: '60px',
             fontSize: '1.2rem',
             display: 'flex',

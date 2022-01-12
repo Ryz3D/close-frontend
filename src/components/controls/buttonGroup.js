@@ -4,10 +4,18 @@ import CButton from "./button";
 
 class CButtonGroup extends React.Component {
     render() {
+        const group = {
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: 'auto',
+        };
+
         return (
             <>
-                <sui.Button.Group vertical={this.props.vertical}>
-                    {this.props.buttons.map(p => <CButton {...p} />)}
+                <sui.Button.Group floated="left" vertical={this.props.vertical} style={group}>
+                    {this.props.buttons.map(p => <CButton {...p} iscol={this.props.iscol} />)}
                 </sui.Button.Group>
             </>
         );
