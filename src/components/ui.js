@@ -27,6 +27,7 @@ class UIComponent extends React.Component {
         this.state = {
             setup: {},
             sidebar,
+            sidebarOverride: false,
         };
         this.headerRef = React.createRef();
 
@@ -49,12 +50,18 @@ class UIComponent extends React.Component {
     }
 
     showSidebar() {
-        this.setState({ sidebar: 1 });
+        this.setState({
+            sidebar: true,
+            sidebarOverride: true,
+        });
         localStorage.setItem("sidebar", "1");
     }
 
     hideSidebar() {
-        this.setState({ sidebar: 0 });
+        this.setState({
+            sidebar: false,
+            sidebarOverride: false,
+        });
         localStorage.setItem("sidebar", "0");
     }
 
@@ -63,8 +70,13 @@ class UIComponent extends React.Component {
         const loggedIn = this.props.loggedIn === undefined ? true : this.props.loggedIn;
 
         var sidebar = this.state.sidebar;
-        if (!parseInt(localStorage.getItem("disableSidebarHide")) && this.props.windowWidth < 600) {
-            sidebar = false;
+        if (this.props.windowWidth < 600) {
+            if (!parseInt(localStorage.getItem("disableSidebarHide")) && !this.state.sidebarOverride) {
+                sidebar = false;
+            }
+        }
+        else if (this.state.sidebarOverride) {
+            setTimeout(_ => this.setState({ sidebarOverride: false }), 0);
         }
 
         const screenSize = {

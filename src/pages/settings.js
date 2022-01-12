@@ -44,7 +44,7 @@ class SettingsPage extends React.Component {
                         <label>Sidebar Behaviour:</label>
                         <sui.Dropdown fluid button header="Behaviour" style={{ backgroundColor: '#fff' }}
                             selection value={this.state.sidebar}
-                            onChange={(e, { value }) => this.setState({
+                            onChange={(_, { value }) => this.setState({
                                 sidebar: value,
                                 saved: false,
                             })}
@@ -56,7 +56,7 @@ class SettingsPage extends React.Component {
                     </sui.Form.Field>
                     <br />
                     <sui.Form.Field>
-                        <label>Hide Sidebar with slim screen</label>
+                        <label>Hide Sidebar in slim window</label>
                         <sui.Checkbox toggle checked={this.state.hideSidebar}
                             onChange={(_, { checked }) => this.setState({
                                 hideSidebar: checked,
