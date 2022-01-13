@@ -22,7 +22,6 @@ import UIComponent from './components/ui';
 /*
 
 TODO:
-  - dark mode based on var (e.g. light brightness)
   - homekit always expects number and sets aggressively (STOP not accepted)
     -> different windowcovering characteristic?
     -> ignore homekit requests?
@@ -32,22 +31,30 @@ TODO:
   - reconnect sub
   - closerest: buffer var values and send on cb register
   - variable page sub
-  - log page (i.e. homekit)
+  - optionally disable transitions
 
 */
+
+const pages = [
+  ['home', 'Home', HomePage],
+  ['homeSet', 'Set Homepage', HomeSetPage],
+  ['view', 'Layout', ViewPage],
+  ['layouts', 'Layouts', LayoutsPage],
+  ['variables', 'Variables', VariablesPage],
+  ['settings', 'Settings', SettingsPage],
+  ['about', 'About', AboutPage],
+];
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Switch>
         <Route path="/" exact><IndexPage /></Route>
-        <Route path="/home"><UIComponent header="Home"><HomePage /></UIComponent></Route>
-        <Route path="/homeSet"><UIComponent header="Set Homepage"><HomeSetPage /></UIComponent></Route>
-        <Route path="/view"><UIComponent header="Layout"><ViewPage /></UIComponent></Route>
-        <Route path="/layouts"><UIComponent header="Layouts"><LayoutsPage /></UIComponent></Route>
-        <Route path="/variables"><UIComponent header="Variables"><VariablesPage /></UIComponent></Route>
-        <Route path="/settings"><UIComponent header="Settings"><SettingsPage /></UIComponent></Route>
-        <Route path="/about"><UIComponent header="About"><AboutPage /></UIComponent></Route>
+        {pages.map(p =>
+          <Route path={`/${p[0]}`}>
+            <UIComponent header={p[1]} component={p[2]} />
+          </Route>
+        )}
         <Route component={NotFoundPage} />
       </Switch>
     </Router>

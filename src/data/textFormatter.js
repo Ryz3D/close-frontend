@@ -3,7 +3,12 @@ import * as sui from "semantic-ui-react";
 
 class TextFormatter {
     static formatName(name) {
-        return (name[0].toUpperCase() + name.substr(1)).replace("_", " ");
+        if (name === undefined || name === "") {
+            return "";
+        }
+        else {
+            return (name[0].toUpperCase() + name.substr(1)).replace("_", " ");
+        }
     }
 
     static format(text) {

@@ -23,15 +23,18 @@ class Control extends React.Component {
         }
 
         const card = {
-            backgroundColor: this.props.inverted ? '#222' : '',
+            backgroundColor: this.props.dark ? '#151515' : '',
             textAlign: 'center',
+            boxShadow: 'none',
+            transition: 'background-color 1s',
         };
 
         return (
             <sui.Card raised fluid style={card}>
                 {this.props.header !== undefined &&
                     <sui.Card.Header>
-                        <sui.Header textAlign="center" size="large" style={{ margin: '10px' }}>
+                        <sui.Header textAlign="center" size="large" inverted={this.props.dark}
+                            style={{ margin: '10px', transition: 'color 1s' }}>
                             {this.props.header}
                         </sui.Header>
                     </sui.Card.Header>

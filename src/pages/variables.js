@@ -95,7 +95,7 @@ class VariablesPage extends React.Component {
                     </sui.Modal.Actions>
                 </sui.Modal>
 
-                <sui.Grid celled="internally" centered columns={2}>
+                <sui.Grid celled="internally" centered columns={2} style={{ color: this.props.dark ? '#fff' : '' }}>
                     <sui.Grid.Row columns={2}>
                         <sui.Grid.Column style={{ textAlign: 'right' }}>
                             <b>ID</b>
@@ -116,10 +116,11 @@ class VariablesPage extends React.Component {
                             <sui.Grid.Column style={{
                                 overflow: 'hidden',
                             }}>
-                                <sui.Button basic onClick={_ => this.setState({
-                                    edit: v,
-                                    editValue: this.state.vars[v],
-                                }, _ => this.inputRef.current.select())}>
+                                <sui.Button basic={!this.props.dark} secondary={this.props.dark}
+                                    inverted={this.props.dark} onClick={_ => this.setState({
+                                        edit: v,
+                                        editValue: this.state.vars[v],
+                                    }, _ => this.inputRef.current.select())}>
                                     {this.state.vars[v]}
                                 </sui.Button>
                             </sui.Grid.Column>

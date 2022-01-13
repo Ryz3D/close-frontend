@@ -6,10 +6,12 @@ class CHeader extends React.Component {
     render() {
         const header = {
             margin: '5px',
+            transition: 'color 1s',
         };
 
         return (
-            <sui.Header style={header} size='large' textAlign='center'>
+            <sui.Header style={header} size='large'
+                textAlign='center' inverted={this.props.dark}>
                 {TextFormatter.format(this.props.text)}
             </sui.Header>
         );

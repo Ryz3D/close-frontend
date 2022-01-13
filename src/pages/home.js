@@ -16,19 +16,18 @@ class HomePage extends React.Component {
             .then(list => {
                 if (list === undefined) {
                     this.props.history.push("/");
-                } else if (list.find(e => e === id) === undefined) {
-                    this.props.history.push("/homeSet");
-                }
-                else {
+                } else if (list.findIndex(e => e === id) === -1) {
+                    CloseRest.layoutHome()
+                        .then(id => this.props.history.push(`/view?id=${id}`));
+                } else {
                     CloseRest.layoutGet(id)
                         .then(layout => {
                             if (layout === undefined) {
-                                this.props.history.push("/homeSet");
+                                CloseRest.layoutHome()
+                                    .then(id => this.props.history.push(`/view?id=${id}`));
                             }
                             else {
-                                this.setState({
-                                    layout,
-                                });
+                                this.setState({ layout });
                             }
                         });
                 }
@@ -39,7 +38,7 @@ class HomePage extends React.Component {
         if (this.state.layout === undefined) {
             return <></>;
         } else {
-            return <LayoutView layout={this.state.layout} />
+            return <LayoutView layout={this.state.layout} dark={this.props.dark} />;
         }
     }
 }

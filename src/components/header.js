@@ -17,7 +17,7 @@ class Header extends React.Component {
             right: this.props.sidebar ? 'calc(17mm + 150px)' : '17mm',
             marginTop: '15px',
             color: this.props.sub ? "#9f35ccb0" : undefined,
-            transition: 'right 500ms ease, left 500ms ease',
+            transition: 'right 500ms ease, left 500ms ease, color 1s',
         };
         const buffer = {
             width: '100%',

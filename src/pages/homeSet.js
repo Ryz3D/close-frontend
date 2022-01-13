@@ -9,7 +9,7 @@ class HomeSetPage extends React.Component {
         super(props);
         this.state = {
             layouts: [],
-            selected: localStorage.getItem('homepage') || '',
+            selected: localStorage.getItem('homepage') || 0,
             saved: false,
         };
     }
@@ -24,8 +24,13 @@ class HomeSetPage extends React.Component {
     }
 
     save() {
-        if (this.state.selected) {
-            localStorage.setItem('homepage', this.state.selected);
+        if (this.state.selected !== undefined) {
+            if (this.state.selected === 0) {
+                localStorage.setItem("homepage", "");
+            }
+            else {
+                localStorage.setItem('homepage', this.state.selected);
+            }
             this.setState({
                 saved: true,
             });
@@ -42,7 +47,7 @@ class HomeSetPage extends React.Component {
 
         return (
             <div>
-                <sui.Form style={form}>
+                <sui.Form style={form} inverted={this.props.dark}>
                     {back !== null &&
                         <>
                             <sui.Button inverted secondary as={Link} to={"/" + back}>
@@ -60,10 +65,13 @@ class HomeSetPage extends React.Component {
                                 selected: value,
                                 saved: false,
                             })}
-                            options={this.state.layouts.sort((a, b) => b - a).map(l => ({
-                                text: TextFormatter.formatName(l),
-                                value: l,
-                            }))} />
+                            options={[
+                                { text: "Default", value: 0 },
+                                ...this.state.layouts.sort((a, b) => b - a).map(l => ({
+                                    text: TextFormatter.formatName(l),
+                                    value: l,
+                                })),
+                            ]} />
                     </sui.Form.Field>
                     <br />
                     <sui.Button animated="fade" primary disabled={this.state.saved} onClick={_ => this.save()}>

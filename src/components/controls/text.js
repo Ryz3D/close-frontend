@@ -11,14 +11,8 @@ class CText extends React.Component {
 
     componentDidMount() {
         if (this.props.var) {
-            CloseRest.varGet(this.props.var)
-                .then(value => this.setState({
-                    value: value
-                }));
-            this.closeSub = CloseRest.varSub(this.props.var,
-                value => this.setState({
-                    value: value
-                }));
+            CloseRest.varGet(this.props.var).then(value => this.setState({ value }));
+            this.closeSub = CloseRest.varSub(this.props.var, value => this.setState({ value }));
         }
     }
 
@@ -31,11 +25,16 @@ class CText extends React.Component {
     render() {
         const formatter = t => TextFormatter.format(t);
 
+        const text = {
+            color: this.props.dark ? '#fff' : '',
+            transition: 'color 1s',
+        };
+
         if (this.state.value !== undefined) {
-            return <>{formatter(this.state.value)}</>;
+            return <div style={text}>{formatter(this.state.value)}</div>;
         }
         else if (this.props.text !== undefined) {
-            return <>{formatter(this.props.text)}</>;
+            return <div style={text}>{formatter(this.props.text)}</div>;
         }
         else {
             return <></>;

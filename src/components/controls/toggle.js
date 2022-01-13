@@ -9,10 +9,12 @@ class CToggle extends React.Component {
         super(props);
         this.state = {
             value: 0,
+            colorTime: 0.2,
         };
         if (!this.props.var) {
-            console.error("CButton: No var given");
+            console.error("CToggle: No var given");
         }
+        this.darkLast = this.props.dark;
     }
 
     componentDidMount() {
@@ -37,17 +39,29 @@ class CToggle extends React.Component {
     }
 
     render() {
+        if (this.props.dark !== this.darkLast) {
+            this.colorTime = 1;
+            setTimeout(_ => {
+                this.colorTime = 0.2;
+            }, 1000);
+            this.darkLast = this.props.dark;
+        }
+
         const btn = {
             height: '60px',
             fontSize: '1.2rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundColor: (!this.props.dark || this.state.value >= 0.5) ? '' : '#222',
+            color: this.props.dark ? '#fff' : '',
+            transition: `background-color ${this.colorTime}s, color 1s`,
         };
 
         return (
             <>
-                <sui.Button style={btn} primary={this.state.value >= 0.5} fluid={!this.props.nonFluid} toggle onClick={_ => this.send()}>
+                <sui.Button style={btn} primary={this.state.value >= 0.5}
+                    fluid={!this.props.nonFluid} toggle onClick={_ => this.send()}>
                     {TextFormatter.format(this.props.text || this.props.children)}
                 </sui.Button>
             </>

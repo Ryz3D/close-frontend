@@ -7,6 +7,7 @@ import TextFormatter from '../data/textFormatter';
 import logo from '../img/logo.png';
 import Header from './header';
 import reactWindowSize from 'react-window-size';
+import DarkMode from '../data/darkMode';
 
 class UIComponent extends React.Component {
     constructor(props) {
@@ -28,6 +29,7 @@ class UIComponent extends React.Component {
             setup: {},
             sidebar,
             sidebarOverride: false,
+            dark: false,
         };
         this.headerRef = React.createRef();
 
@@ -45,6 +47,9 @@ class UIComponent extends React.Component {
                 }
                 else {
                     this.setState({ setup });
+                    DarkMode.isDark(dark => {
+                        this.setState({ dark });
+                    });
                 }
             });
     }
@@ -68,6 +73,7 @@ class UIComponent extends React.Component {
     render() {
         const path = document.location.pathname;
         const loggedIn = this.props.loggedIn === undefined ? true : this.props.loggedIn;
+        const dark = this.state.dark && this.props.component !== undefined;
 
         var sidebar = this.state.sidebar;
         if (this.props.windowWidth < 600) {
@@ -92,7 +98,8 @@ class UIComponent extends React.Component {
         };
         const root = {
             ...screenSize,
-            backgroundColor: '#ddd',
+            backgroundColor: dark ? '#222' : '#ddd',
+            transition: 'background-color 1s',
         };
         const screenPusher = {
             ...screenSize,
@@ -146,8 +153,8 @@ class UIComponent extends React.Component {
         const header = (
             <>
                 {loggedIn && <sui.Button style={sidebarBtn2} size="medium" circular icon="sidebar" onClick={_ => this.showSidebar()} />}
-                {this.props.subHeader && <Header sub sidebar={sidebar}>{this.props.subHeader}</Header>}
-                {this.props.header && <Header sidebar={sidebar}>{this.props.header + headerExt}</Header>}
+                {this.props.subHeader && <Header sub sidebar={sidebar} inverted={dark}>{this.props.subHeader}</Header>}
+                {this.props.header && <Header sidebar={sidebar} inverted={dark}>{this.props.header + headerExt}</Header>}
             </>
         );
 
@@ -184,7 +191,7 @@ class UIComponent extends React.Component {
                         <sui.Sidebar.Pusher style={root}>
                             <div style={screenPusher}>
                                 {header}
-                                {this.props.children}
+                                {React.createElement(this.props.component, { dark: this.state.dark })}
                             </div>
                         </sui.Sidebar.Pusher>
                     </sui.Sidebar.Pushable>

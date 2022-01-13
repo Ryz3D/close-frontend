@@ -98,16 +98,19 @@ class CSlider extends React.Component {
             height: this.props.vertical ? '40px' : '7px',
             borderRadius: '3px',
         };
+        const label = {
+            color: this.props.dark ? '#fff' : '',
+            backgroundColor: this.props.dark ? '#333' : '',
+            transition: 'background-color 1s',
+        };
 
-        if (this.props.color === "hue") {
-            // f = c => `linear-gradient(to right, ${[...new Array(c).keys()].map(v => `hsl(${v * 360 / (c - 1)}, 100%, 50%) ${v / (c - 1) * 100}%`).join(', ')});`
-        }
-        else if (this.props.color !== undefined) {
-            const clr = this.props.color;
-            slider.background = `linear-gradient(to right, #${clr} 0%, #${clr} ${perc}%, #eee ${perc}%, #eee 100%)`;
-        }
-        else {
-            slider.background = `linear-gradient(to right, #9f35cc 0%, #b75bde ${perc}%, #eee ${perc}%, #eee 100%)`;
+        if (this.props.color !== "hue") {
+            const onColors = ['#9f35cc', '#b75bde'];
+            const offColors = this.props.dark ? ['#222', '#333'] : ['#eee', '#eee'];
+            if (this.props.color !== undefined) {
+                onColors[0] = onColors[1] = this.props.color;
+            }
+            slider.background = `linear-gradient(to right, ${onColors[0]} 0%, ${onColors[1]} ${perc}%, ${offColors[0]} ${perc}%, ${offColors[1]} 100%)`;
         }
 
         return (
@@ -133,7 +136,7 @@ class CSlider extends React.Component {
                     }
                     {!this.props.hideLabel &&
                         <div style={{ textAlign: 'left' }}>
-                            <sui.Label basic ribbon={!this.props.vertical} pointing="above">
+                            <sui.Label basic ribbon={!this.props.vertical} pointing="above" style={label}>
                                 {(this.props.labelConv || (v => `${v}%`))(Math.round((perc + Number.EPSILON) * roundFactor) / roundFactor)}
                             </sui.Label>
                         </div>

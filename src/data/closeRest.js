@@ -60,6 +60,12 @@ class CloseRest {
         });
     }
 
+    static layoutHome() {
+        return new Promise(resolve => {
+            this.rest("layout/home").then(resolve);
+        });
+    }
+
     static varList() {
         return new Promise(resolve => {
             this.rest(`var/list`).then(resolve);
@@ -74,7 +80,7 @@ class CloseRest {
 
     static varSet(id, val, force = false) {
         return new Promise(resolve => {
-            this.rest(`var/set?q=${encodeURIComponent(id)}&v=${encodeURIComponent(val)}&f=${force ? 1 : 0}`).then(resolve);
+            this.rest(`var/set?q=${encodeURIComponent(id)}&v=${encodeURIComponent(val)}&f=${force ? '1' : '0'}`).then(resolve);
         });
     }
 
@@ -91,7 +97,7 @@ class CloseRest {
                 resolve(_ => { });
             }
             else {
-                this.subConnection = new EventSource(`${this.host}var/sub`, {
+                this.subConnection = new EventSource(`${this.host}var/sub?a=${encodeURIComponent(`Basic ${this.auth}`)}`, {
                     withCredentials: true,
                 });
                 this.varList()

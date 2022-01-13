@@ -2,7 +2,7 @@ import React from "react";
 
 class CNotImplemented extends React.Component {
     render() {
-        return <>Not Implemented</>;
+        return <div style={{ color: this.props.dark ? '#fff' : '' }}>Not implemented</div>;
     }
 }
 

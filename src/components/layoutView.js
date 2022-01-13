@@ -24,12 +24,13 @@ class LayoutView extends React.Component {
             case "grid":
                 return (
                     <div style={gridRoot}>
-                        <GridComponent layout={this.props.layout.grid} padded={this.props.windowWidth >= 400} first={true} />
+                        <GridComponent layout={this.props.layout.grid} dark={this.props.dark}
+                            padded={this.props.windowWidth >= 400} first={true} />
                     </div>
                 );
             default:
                 return (
-                    <Control {...Object.entries(this.props.layout)[0][1]} />
+                    <Control {...Object.entries(this.props.layout)[0][1]} dark={this.props.dark} />
                 );
         }
     }

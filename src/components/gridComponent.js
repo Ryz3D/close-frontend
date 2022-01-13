@@ -15,7 +15,7 @@ class GridComponent extends React.Component {
                 return <GridComponent {...{ ...this.props, first: false, iscol: !iscol, layout: c[1] }} />;
             }
             else {
-                const comp = <Control {...c[1]} iscol={this.props.iscol} />;
+                const comp = <Control {...c[1]} iscol={this.props.iscol} dark={this.props.dark} />;
                 if (iscol) {
                     return <sui.Grid.Row>{comp}</sui.Grid.Row>;
                 }
