@@ -22,9 +22,14 @@ class HomePage extends React.Component {
                 else {
                     CloseRest.layoutGet(id)
                         .then(layout => {
-                            this.setState({
-                                layout,
-                            });
+                            if (layout === undefined) {
+                                this.props.history.push("/homeSet");
+                            }
+                            else {
+                                this.setState({
+                                    layout,
+                                });
+                            }
                         });
                 }
             });
