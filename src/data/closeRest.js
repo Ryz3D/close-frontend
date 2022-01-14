@@ -86,7 +86,8 @@ class CloseRest {
 
     static varSubConnected() {
         if (this.subConnection !== undefined && this.subConnection !== null) {
-            return this.subConnection.readyState === this.subConnection.OPEN;
+            return this.subConnection.readyState === this.subConnection.OPEN ||
+                this.subConnection.readyState === this.subConnection.CONNECTING;
         }
         return false;
     }
@@ -128,9 +129,7 @@ class CloseRest {
             this.varCb[id] = [];
         }
         const index = this.varCb[id].push(cb) - 1;
-        if (!this.varSubConnected()) {
-            this.varSubConnect();
-        }
+        setTimeout(_ => this.varSubConnected(), 2000);
         return _ => this.varCb[id][index] = undefined;
     }
 
