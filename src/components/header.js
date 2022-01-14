@@ -12,10 +12,10 @@ class Header extends React.Component {
         };
         const header = {
             ...noSelect,
-            position: 'relative',
+            position: 'absolute',
             left: this.props.sidebar ? '5mm' : '17mm',
-            right: this.props.sidebar ? 'calc(17mm + 150px)' : '17mm',
-            marginTop: '15px',
+            right: '5mm',
+            margin: '15px 0',
             color: this.props.sub ? "#9f35ccb0" : undefined,
             transition: 'right 500ms ease, left 500ms ease, color 1s',
         };

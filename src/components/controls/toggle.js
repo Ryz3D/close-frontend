@@ -28,6 +28,16 @@ class CToggle extends React.Component {
             }));
     }
 
+    shouldComponentUpdate() {
+        if (this.props.dark !== this.darkLast) {
+            this.setState({ colorTime: 1 });
+            setTimeout(_ => {
+                this.setState({ colorTime: 0.2 });
+            }, 1000);
+            this.darkLast = this.props.dark;
+        }
+    }
+
     componentWillUnmount() {
         this.closeSub();
     }
@@ -39,14 +49,6 @@ class CToggle extends React.Component {
     }
 
     render() {
-        if (this.props.dark !== this.darkLast) {
-            this.colorTime = 1;
-            setTimeout(_ => {
-                this.colorTime = 0.2;
-            }, 1000);
-            this.darkLast = this.props.dark;
-        }
-
         const btn = {
             height: '60px',
             fontSize: '1.2rem',
@@ -55,7 +57,7 @@ class CToggle extends React.Component {
             justifyContent: 'center',
             backgroundColor: (!this.props.dark || this.state.value >= 0.5) ? '' : '#222',
             color: this.props.dark ? '#fff' : '',
-            transition: `background-color ${this.colorTime}s, color 1s`,
+            transition: `background-color ${this.state.colorTime}s, color 1s`,
         };
 
         return (

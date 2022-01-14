@@ -28,7 +28,6 @@ TODO:
     -> id marked subs?
   - non transparent pwa icon
   - offline popup
-  - reconnect sub
   - closerest: buffer var values and send on cb register
   - variable page sub
   - optionally disable transitions

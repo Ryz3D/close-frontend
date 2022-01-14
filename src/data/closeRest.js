@@ -128,6 +128,9 @@ class CloseRest {
             this.varCb[id] = [];
         }
         const index = this.varCb[id].push(cb) - 1;
+        if (!this.varSubConnected()) {
+            this.varSubConnect();
+        }
         return _ => this.varCb[id][index] = undefined;
     }
 

@@ -99,7 +99,7 @@ class UIComponent extends React.Component {
         const root = {
             ...screenSize,
             backgroundColor: dark ? '#222' : '#ddd',
-            transition: 'background-color 1s',
+            transition: 'transform 500ms ease, background-color 1s',
         };
         const screenPusher = {
             ...screenSize,
@@ -107,7 +107,7 @@ class UIComponent extends React.Component {
             right: (sidebar && loggedIn) ? '150px' : '0',
             bottom: '0',
             margin: '0',
-            transition: 'transform 500ms ease, right 500ms ease',
+            transition: 'right 500ms ease',
             overflow: 'hidden scroll',
         };
         const sidebarBtn = {
