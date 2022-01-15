@@ -9,7 +9,7 @@ class CToggle extends React.Component {
         super(props);
         this.state = {
             value: 0,
-            colorTime: 0.2,
+            colorTime: 0.1,
         };
         if (!this.props.var) {
             console.error("CToggle: No var given");
@@ -28,11 +28,11 @@ class CToggle extends React.Component {
             }));
     }
 
-    shouldComponentUpdate() {
+    getSnapshotBeforeUpdate() {
         if (this.props.dark !== this.darkLast) {
             this.setState({ colorTime: 1 });
             setTimeout(_ => {
-                this.setState({ colorTime: 0.2 });
+                this.setState({ colorTime: 0.1 });
             }, 1000);
             this.darkLast = this.props.dark;
         }
@@ -57,7 +57,7 @@ class CToggle extends React.Component {
             justifyContent: 'center',
             backgroundColor: (!this.props.dark || this.state.value >= 0.5) ? '' : '#222',
             color: this.props.dark ? '#fff' : '',
-            transition: `background-color ${this.state.colorTime}s, color 1s`,
+            transition: `background-color ${this.state.colorTime}s, color ${this.state.colorTime}s`,
         };
 
         return (
