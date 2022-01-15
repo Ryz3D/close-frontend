@@ -3,6 +3,7 @@ class CloseRest {
     static auth = "";
     static varCb = {};
     static subConnection;
+    static subInterval;
 
     static rest(req) {
         return new Promise(resolve => {
@@ -103,13 +104,13 @@ class CloseRest {
                 });
                 this.varList()
                     .then(vars => {
-                        if (vars !== undefined) {
+                        if (vars) {
                             for (var v of vars) {
                                 const idBuf = v;
                                 this.subConnection.addEventListener(v, e => {
-                                    if (this.varCb[idBuf] !== undefined) {
+                                    if (this.varCb[idBuf]) {
                                         for (var cb of this.varCb[idBuf]) {
-                                            if (cb !== undefined) {
+                                            if (cb) {
                                                 cb(e.data);
                                             }
                                         }
@@ -118,7 +119,9 @@ class CloseRest {
                             }
                             resolve(_ => this.subConnection.close());
                         }
-                        resolve();
+                        else {
+                            resolve(_ => { });
+                        }
                     });
             }
         });
@@ -129,7 +132,9 @@ class CloseRest {
             this.varCb[id] = [];
         }
         const index = this.varCb[id].push(cb) - 1;
-        setTimeout(_ => this.varSubConnected(), 2000);
+        if (!this.subInterval) {
+            this.subInterval = setTimeout(_ => this.varSubConnect(), 2000);
+        }
         return _ => this.varCb[id][index] = undefined;
     }
 
