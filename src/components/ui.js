@@ -75,6 +75,8 @@ class UIComponent extends React.Component {
         const loggedIn = this.props.loggedIn === undefined ? true : this.props.loggedIn;
         const dark = this.state.dark && this.props.component !== undefined;
 
+        document.getElementsByTagName("body")[0].className = dark ? "dark" : "";
+
         var sidebar = this.state.sidebar;
         if (this.props.windowWidth < 600) {
             if (!parseInt(localStorage.getItem("disableSidebarHide")) && !this.state.sidebarOverride) {

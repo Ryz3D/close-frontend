@@ -14,7 +14,6 @@ class CToggle extends React.Component {
         if (!this.props.var) {
             console.error("CToggle: No var given");
         }
-        this.darkLast = this.props.dark;
     }
 
     componentDidMount() {
@@ -29,12 +28,15 @@ class CToggle extends React.Component {
     }
 
     getSnapshotBeforeUpdate() {
-        if (this.props.dark !== this.darkLast) {
+        return { darkLast: this.props.dark };
+    }
+
+    componentDidUpdate(_, __, { darkLast }) {
+        if (this.props.dark !== darkLast) {
             this.setState({ colorTime: 1 });
             setTimeout(_ => {
                 this.setState({ colorTime: 0.1 });
             }, 1000);
-            this.darkLast = this.props.dark;
         }
     }
 

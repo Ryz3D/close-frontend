@@ -7,16 +7,18 @@ import CToggle from "./controls/toggle";
 import CNotImplemented from "./controls/notImplemented";
 import CText from "./controls/text";
 import CHeader from "./controls/header";
+import CColorSB from "./controls/color-sb";
 
 class Control extends React.Component {
     render() {
         var component = {
-            button: CButton,
-            buttongroup: CButtonGroup,
-            toggle: CToggle,
-            slider: CSlider,
-            text: CText,
-            header: CHeader,
+            "button": CButton,
+            "buttongroup": CButtonGroup,
+            "toggle": CToggle,
+            "slider": CSlider,
+            "text": CText,
+            "header": CHeader,
+            "color-sb": CColorSB,
         }[this.props.type];
         if (component === undefined) {
             component = CNotImplemented;
