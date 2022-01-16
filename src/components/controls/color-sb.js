@@ -34,24 +34,20 @@ class CColorSB extends React.Component {
     }
 
     componentDidMount() {
-        this.updateSize();
-        if (this.props.varH && this.props.varS && this.props.varB) {
-            this.closeSub1 = CloseRest.varSub(this.props.varS, d => {
-                this.setState({
-                    x: d * this.state.w / 100,
-                });
-            });
-            this.closeSub2 = CloseRest.varSub(this.props.varB, d => {
-                this.setState({
-                    y: (100 - d) * this.state.h / 100,
-                });
-            });
-            this.closeSub3 = CloseRest.varSub(this.props.varH, hue => {
-                this.setState({
-                    hue
-                });
-            });
-        }
+        this.updateSize(_ => {
+            if (this.props.varH && this.props.varS && this.props.varB) {
+                CloseRest.varGet(this.props.varS)
+                    .then(d => this.setState({ x: d * this.state.w / 100 }));
+                CloseRest.varGet(this.props.varB)
+                    .then(d => this.setState({ y: (100 - d) * this.state.h / 100 }));
+                CloseRest.varGet(this.props.varH)
+                    .then(hue => this.setState({ hue }));
+
+                this.closeSub1 = CloseRest.varSub(this.props.varS, d => this.setState({ x: d * this.state.w / 100 }));
+                this.closeSub2 = CloseRest.varSub(this.props.varB, d => this.setState({ y: (100 - d) * this.state.h / 100 }));
+                this.closeSub3 = CloseRest.varSub(this.props.varH, hue => this.setState({ hue }));
+            }
+        });
     }
 
     componentWillUnmount() {
