@@ -74,6 +74,7 @@ class UIComponent extends React.Component {
         const path = document.location.pathname;
         const loggedIn = this.props.loggedIn === undefined ? true : this.props.loggedIn;
         const dark = this.state.dark && this.props.component !== undefined;
+        const serverName = this.state.setup.name === undefined ? "closedHAB" : this.state.setup.name;
 
         document.getElementsByTagName("body")[0].className = dark ? "dark" : "";
 
@@ -164,7 +165,7 @@ class UIComponent extends React.Component {
             <>
                 <Helmet>
                     <title>
-                        {this.state.setup.name || "closedHAB"}
+                        {serverName}
                     </title>
                 </Helmet>
                 {loggedIn ?
@@ -175,7 +176,7 @@ class UIComponent extends React.Component {
                                 <sui.Header inverted textAlign="center" style={{ marginTop: "12mm", marginBottom: "10px" }}>
                                     <sui.Image src={logo} size="massive" style={{ pointerEvents: 'none' }} />
                                     <br />
-                                    closedHAB
+                                    {serverName}
                                 </sui.Header>
                             </sui.Menu.Header>
                             {pages.map(p =>
